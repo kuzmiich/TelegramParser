@@ -116,6 +116,18 @@ async def dump_messages(chat_id, time_period, client):
 
 
 def clnt():
+    # Считываем учетные данные
+    # config = configparser.ConfigParser()
+    # config.read("config.ini")
+    # Присваиваем значения внутренним переменным
+    # api_id   = config['Telegram']['api_id']
+    # api_hash = config['Telegram']['api_hash']
+    # username = config['Telegram']['username']
+    
+    # proxy = (proxy_server, proxy_port, proxy_key)
+    # connection=connection.ConnectionTcpMTProxyRandomizedIntermediate,
+    #                        proxy=proxy
+
     api_id = "1735329"
     api_hash = "86a59fa728d061e59e6f5dd68408a44f"
     username = "@Op_na"
@@ -124,10 +136,6 @@ def clnt():
 
 
 def parse(chat_id, time_period):
-    # proxy = (proxy_server, proxy_port, proxy_key)
-    # connection=connection.ConnectionTcpMTProxyRandomizedIntermediate,
-    #                        proxy=proxy
-
     client = clnt()
     is_connect = False
     try:
