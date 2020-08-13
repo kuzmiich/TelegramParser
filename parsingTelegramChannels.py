@@ -1,10 +1,12 @@
-﻿import time
+import time
 import configparser
 from datetime import date, datetime
 import asyncio
 
 from telethon.sync import TelegramClient
 from telethon import connection
+# прокси
+import socks
 # классы для работы с каналами
 from telethon.tl.functions.channels import GetParticipantsRequest
 from telethon.tl.types import ChannelParticipantsSearch, PeerChannel
@@ -28,8 +30,8 @@ async def dump_all_participants(chat_id, client):
 
         while True:
             try:
-                participants = await client(GetParticipantsRequest(channel,
-                                                                   filter_user, offset_user, limit_user, hash=0))
+                participants = await client(GetParticipantsRequest(channel, filter_user, offset_user,
+                                                                   limit_user, hash=0))
             except BaseException as e:
                 print(e)
                 return
@@ -123,14 +125,16 @@ def clnt():
     # api_id   = config['Telegram']['api_id']
     # api_hash = config['Telegram']['api_hash']
     # username = config['Telegram']['username']
-    
+
+    # proxy_server = 'godaddy.com'
+    # proxy_port = 18726
+    # proxy_key = '166.62.80.198'
     # proxy = (proxy_server, proxy_port, proxy_key)
     # connection=connection.ConnectionTcpMTProxyRandomizedIntermediate,
-    #                        proxy=proxy
-
+    #                         proxy = proxy
     api_id = "1735329"
     api_hash = "86a59fa728d061e59e6f5dd68408a44f"
-    username = "@Op_na"
+    username = "username"
     client = TelegramClient(username, api_id, api_hash)
     return client
 
@@ -147,12 +151,17 @@ def parse(chat_id, time_period):
     
     if is_connect:
         with client:
-            lst_participants = client.loop.run_until_complete(dump_all_participants(chat_id, client))
-            lst_messages = client.loop.run_until_complete(dump_messages(chat_id, time_period, client))
+            lst_result = []
+            dict_messages = client.loop.run_until_complete(dump_messages(chat_id, time_period, client))
+            lst_result.append(dict_messages)
+            INPUT = input("Введите 0, если вам нужно получить словарь пользователей: ")
+            if int(INPUT) != 0:
+                INPUT = 1
+            if not int(INPUT):
+                dict_participants = client.loop.run_until_complete(dump_all_participants(chat_id, client))
+                lst_result.append(dict_participants)
 
-            z = lst_participants.copy()
-            z.update(lst_messages)
-            return z
+            return lst_result
 
 if __name__ == "__main__":
     chat_id = input("Введите ссылку на канал или чат: ")
