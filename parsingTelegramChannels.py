@@ -154,10 +154,8 @@ def parse(chat_id, time_period):
             lst_result = []
             dict_messages = client.loop.run_until_complete(dump_messages(chat_id, time_period, client))
             lst_result.append(dict_messages)
-            INPUT = input("Введите 0, если вам нужно получить словарь пользователей: ")
-            if int(INPUT) != 0:
-                INPUT = 1
-            if not int(INPUT):
+            INPUT = input("Введите 0, если вам нужно получить данные о пользователях\nРаботает, если есть доступ к каналу или он публичный\n")
+            if int(INPUT) == 0:
                 dict_participants = client.loop.run_until_complete(dump_all_participants(chat_id, client))
                 lst_result.append(dict_participants)
 
