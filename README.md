@@ -1,2 +1,2 @@
-# TelegramParserPython
-Single program for parsing telegram channels
+# TelegramParser
+Single program for parsing telegram channels.
